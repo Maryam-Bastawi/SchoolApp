@@ -1,0 +1,234 @@
+﻿@using SchoolApp.BLL.ModelViews
+@model CreateStudentDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+    <form asp-action="Create">
+<div class="container mt-4">
+    <h1 class="text-center mb-4">إنشاء طالب جديد</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12"> @* Use col-lg-10 for wider screens, col-md-12 for medium, full width on small *@
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    @* Added enctype for file upload *@
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <h3 class="mb-3 mt-4 text-primary">المعلومات الشخصية</h3>
+                <hr class="mb-4" />
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EnglishName" class="form-label"></label>
+                        <input asp-for="EnglishName" class="form-control" />
+                        <span asp-validation-for="EnglishName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Mobile1" class="form-label"></label>
+                        <input asp-for="Mobile1" class="form-control" />
+                        <span asp-validation-for="Mobile1" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Mobile2" class="form-label"></label>
+                        <input asp-for="Mobile2" class="form-control" />
+                        <span asp-validation-for="Mobile2" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mb-3">
+                        <label asp-for="Location" class="form-label"></label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Respons" class="form-label"></label>
+                        <input asp-for="Respons" class="form-control" />
+                        <span asp-validation-for="Respons" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="IdNumber" class="form-label"></label>
+                        <input asp-for="IdNumber" class="form-control" />
+                        <span asp-validation-for="IdNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="IdIssueDateString" class="form-label"></label>
+                        <input asp-for="IdIssueDateString" class="form-control" type="date" /> @* Changed to type="date" *@
+                        <span asp-validation-for="IdIssueDateString" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="IdEndDateString" class="form-label"></label>
+                        <input asp-for="IdEndDateString" class="form-control" type="date" /> @* Changed to type="date" *@
+                        <span asp-validation-for="IdEndDateString" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="NationalId" class="form-label"></label>
+                        <input asp-for="NationalId" class="form-control" />
+                        <span asp-validation-for="NationalId" class="text-danger"></span>
+                    </div>
+                     <div class="col-md-6 mb-3">
+                        <label asp-for="BirthDateString" class="form-label"></label>
+                        <input asp-for="BirthDateString" class="form-control" type="date" /> @* Changed to type="date" *@
+                        <span asp-validation-for="BirthDateString" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="StudentSex" class="form-label">النوع (ذكر/أنثى)</label>
+                        <div class="form-check">
+                            <input asp-for="StudentSex" type="radio" value="true" class="form-check-input" id="studentSexMale" />
+                            <label class="form-check-label" for="studentSexMale">ذكر</label>
+                        </div>
+                        <div class="form-check">
+                            <input asp-for="StudentSex" type="radio" value="false" class="form-check-input" id="studentSexFemale" />
+                            <label class="form-check-label" for="studentSexFemale">أنثى</label>
+                        </div>
+                        <span asp-validation-for="StudentSex" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Passport" class="form-label"></label>
+                        <input asp-for="Passport" class="form-control" />
+                        <span asp-validation-for="Passport" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mb-3">
+                        <label asp-for="StudentImage" class="form-label"></label>
+                            <input type="file" asp-for="StudentImage" class="form-control" />
+                        <span asp-validation-for="StudentImage" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <h3 class="mb-3 mt-4 text-primary">المعلومات الدراسية والمدرسية</h3>
+                <hr class="mb-4" />
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="StagesId" class="form-label"></label>
+                        <input asp-for="StagesId" class="form-control" /> @* Consider a dropdown/select here *@
+                        <span asp-validation-for="StagesId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="GradesId" class="form-label"></label>
+                        <input asp-for="GradesId" class="form-control" /> @* Consider a dropdown/select here *@
+                        <span asp-validation-for="GradesId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="StudentStatusId" class="form-label"></label>
+                        <input asp-for="StudentStatusId" class="form-control" /> @* Consider a dropdown/select here *@
+                        <span asp-validation-for="StudentStatusId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Classroom" class="form-label"></label>
+                        <input asp-for="Classroom" class="form-control" />
+                        <span asp-validation-for="Classroom" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="AreaId" class="form-label"></label>
+                        <input asp-for="AreaId" class="form-control" /> @* Consider a dropdown/select here *@
+                        <span asp-validation-for="AreaId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SchoolId" class="form-label"></label>
+                        <input asp-for="SchoolId" class="form-control" /> @* Consider a dropdown/select here *@
+                        <span asp-validation-for="SchoolId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <h3 class="mb-3 mt-4 text-primary">معلومات إضافية</h3>
+                <hr class="mb-4" />
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="nextGradeSwitch" asp-for="NextGrade">
+                            <label class="form-check-label" for="nextGradeSwitch" asp-for="NextGrade">الصف التالي</label>
+                            <span asp-validation-for="NextGrade" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="stopSmsSwitch" asp-for="StopSms">
+                            <label class="form-check-label" for="stopSmsSwitch" asp-for="StopSms">إيقاف رسائل SMS</label>
+                            <span asp-validation-for="StopSms" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                         <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="isNewYearSwitch" asp-for="IsNewYear">
+                            <label class="form-check-label" for="isNewYearSwitch" asp-for="IsNewYear">عام جديد</label>
+                            <span asp-validation-for="IsNewYear" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mb-3">
+                        <label asp-for="VehicleId" class="form-label"></label>
+                        <input asp-for="VehicleId" class="form-control" />
+                        <span asp-validation-for="VehicleId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mb-3">
+                        <label asp-for="Note" class="form-label"></label>
+                        <textarea asp-for="Note" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> إلغاء
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</form>
