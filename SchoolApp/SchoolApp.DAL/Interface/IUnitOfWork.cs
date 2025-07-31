@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolApp.DAL.Interfaces.UnitOfWork
+namespace SchoolApp.DAL.Interface
 {
     public interface IUnitOfWork
     {
@@ -13,5 +13,6 @@ namespace SchoolApp.DAL.Interfaces.UnitOfWork
         Task<int> CompleteAsync();
         //for generate repository and return
         IGenericRepository<TEntity, TKey> Repository<TEntity, TKey>() where TEntity : BaseEntity<TKey>;
+        IStudentRepository studentRepository { get; } 
     }
 }

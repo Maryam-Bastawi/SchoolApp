@@ -1,8 +1,7 @@
-﻿using company.ass.BLL.Repositories;
-using SchoolApp.BLL.Data.Contexts;
+﻿using SchoolApp.BLL.Data.Contexts;
 using SchoolApp.BLL.Repositories;
 using SchoolApp.DAL.Entities;
-using SchoolApp.DAL.Interfaces;
+using SchoolApp.DAL.Interface;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolApp.BLL.UnitOfWork.UnitOfWork
+namespace SchoolApp.BLL.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -37,6 +36,14 @@ namespace SchoolApp.BLL.UnitOfWork.UnitOfWork
             }
         }
 
+
+        public IStudentRepository studentRepository
+        {
+            get
+            {
+                return _studentRepository ??= new StudentRepository(_context);
+            }
+        }
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
 
 

@@ -65,7 +65,6 @@ namespace SchoolApp.Controllers
         [ValidateAntiForgeryToken] // حماية ضد هجمات تزوير الطلبات عبر المواقع (CSRF)
         public async Task<IActionResult> Create(CreateStudentDto createDto) // <--- يقبل CreateStudentDto
         {
-
             if (!ModelState.IsValid)
                 return View(createDto);
 
@@ -78,34 +77,42 @@ namespace SchoolApp.Controllers
 
                 ModelState.AddModelError("", "فشل إنشاء الطالب. يرجى المحاولة مرة أخرى.");
             }
-            catch (DatabaseOperationException ex) when (ex.Message.Contains("الهوية"))
-            {
-                ModelState.AddModelError(nameof(createDto.IdNumber), ex.Message);
-            }
             catch (DatabaseOperationException ex)
             {
-                ModelState.AddModelError("", $"خطأ في قاعدة البيانات: {ex.Message}");
+                if (ex.Message.Contains("الهوية"))
+                {
+                    ModelState.AddModelError(nameof(createDto.IdNumber), ex.Message);
+                }
+                else if (ex.Message.Contains("جواز") || ex.Message.Contains("Passport"))
+                {
+                    ModelState.AddModelError(nameof(createDto.Passport), ex.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"خطأ في قاعدة البيانات: {ex.Message}");
+                }
             }
             catch (ApplicationException ex)
             {
                 ModelState.AddModelError("", $"حدث خطأ أثناء تحميل الصورة: {ex.Message}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "حدث خطأ غير متوقع أثناء إنشاء الطالب.");
+                ModelState.AddModelError("", $"حدث خطأ غير متوقع: {ex.Message}");
             }
 
             return View(createDto);
         }
 
 
+
         // ... (بقية أكشنات الكنترولر الأخرى) ...
 
 
-            // ... (بقية أكشنات الكنترولر: Details, Create, Edit, Delete) ...
+        // ... (بقية أكشنات الكنترولر: Details, Create, Edit, Delete) ...
 
 
-            // GET: StudentsController/Details/5
+        // GET: StudentsController/Details/5
         public ActionResult Details(int id)
         {
             return View();

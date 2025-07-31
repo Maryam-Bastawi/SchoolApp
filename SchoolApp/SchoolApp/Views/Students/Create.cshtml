@@ -7,7 +7,7 @@
 
 
 
-    <form asp-action="Create">
+<form asp-action="Create" >
 <div class="container mt-4">
     <h1 class="text-center mb-4">إنشاء طالب جديد</h1>
 
@@ -15,7 +15,7 @@
         <div class="col-lg-10 col-md-12"> @* Use col-lg-10 for wider screens, col-md-12 for medium, full width on small *@
                 <form asp-action="Create" method="post" enctype="multipart/form-data">
                     @* Added enctype for file upload *@
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                 <h3 class="mb-3 mt-4 text-primary">المعلومات الشخصية</h3>
                 <hr class="mb-4" />
@@ -119,6 +119,8 @@
                         <span asp-validation-for="StudentSex" class="text-danger"></span>
                     </div>
                     <div class="col-md-6 mb-3">
+
+
                         <label asp-for="Passport" class="form-label"></label>
                         <input asp-for="Passport" class="form-control" />
                         <span asp-validation-for="Passport" class="text-danger"></span>
@@ -127,9 +129,9 @@
 
                 <div class="row mb-3">
                     <div class="col-12 mb-3">
-                        <label asp-for="StudentImage" class="form-label"></label>
-                            <input type="file" asp-for="StudentImage" class="form-control" />
-                        <span asp-validation-for="StudentImage" class="text-danger"></span>
+                          <label asp-for="Image" class="col-form-label"></label>
+    <input asp-for="Image" type="file" class="form-control" />
+
                     </div>
                 </div>
 

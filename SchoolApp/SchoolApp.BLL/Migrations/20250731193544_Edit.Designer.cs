@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolApp.BLL.Data.Contexts;
 
@@ -11,9 +12,11 @@ using SchoolApp.BLL.Data.Contexts;
 namespace SchoolApp.BLL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250731193544_Edit")]
+    partial class Edit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,14 +207,6 @@ namespace SchoolApp.BLL.Migrations
                     b.HasIndex("IdNumber")
                         .IsUnique()
                         .HasFilter("[IDNUM] IS NOT NULL");
-
-                    b.HasIndex("Mobile1")
-                        .IsUnique()
-                        .HasFilter("[Mobile1] IS NOT NULL");
-
-                    b.HasIndex("NationalId")
-                        .IsUnique()
-                        .HasFilter("[NATID] IS NOT NULL");
 
                     b.HasIndex("Passport")
                         .IsUnique()

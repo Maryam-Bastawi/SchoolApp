@@ -1,12 +1,12 @@
 ﻿using SchoolApp.DAL.Entities;
-using SchoolApp.DAL.Interfaces;
+using SchoolApp.DAL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolApp.DAL.Interfaces
+namespace SchoolApp.DAL.Interface
 {
     public interface IStudentRepository : IGenericRepository<Student, string> 
     {
@@ -14,6 +14,6 @@ namespace SchoolApp.DAL.Interfaces
          Task<IEnumerable<Student>> GetbyNameAsync(string name);
         Task<bool> AnyByIdNumberAsync(string idNumber);
 
-
+        Task<bool> AnyByPassportAsync(string passport);
     }
 }

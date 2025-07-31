@@ -5,9 +5,8 @@ using SchoolApp.BLL.Migrations;
 using SchoolApp.BLL.ModelViews;
 using SchoolApp.BLL.Services.Contract;
 using SchoolApp.BLL.UnitOfWork;
-using SchoolApp.BLL.UnitOfWork.UnitOfWork;
 using SchoolApp.DAL.Entities;
-using SchoolApp.DAL.Interfaces;
+using SchoolApp.DAL.Interface;
 using SchoolApp.Services.SettingsServicies;
 using System;
 using System.Collections.Generic;
@@ -30,6 +29,29 @@ namespace SchoolApp.Services.Services
             _documentSettings = documentSettings; // <--- هنا التغيير
 
         }
+        private async Task ValidateStudentDataAsync(CreateStudentDto createDto)
+        {
+            if (string.IsNullOrWhiteSpace(createDto.IdNumber))
+                throw new DatabaseOperationException("IdNumberRequired");
+
+            if (string.IsNullOrWhiteSpace(createDto.Passport))
+                throw new DatabaseOperationException("PassportRequired");
+
+            if (await _unitOfWork.studentRepository.AnyByIdNumberAsync(createDto.IdNumber))
+                throw new DatabaseOperationException("IdNumberDuplicate");
+
+            if (await _unitOfWork.studentRepository.AnyByPassportAsync(createDto.Passport))
+                throw new DatabaseOperationException("PassportDuplicate");
+
+            if (!string.IsNullOrWhiteSpace(createDto.Mobile1) &&
+                await _unitOfWork.studentRepository.AnyByMobile1Async(createDto.Mobile1))
+                throw new DatabaseOperationException("Mobile1Duplicate");
+
+            if (!string.IsNullOrWhiteSpace(createDto.Mobile2) &&
+                await _unitOfWork.studentRepository.AnyByMobile2Async(createDto.Mobile2))
+                throw new DatabaseOperationException("Mobile2Duplicate");
+        }
+
         // --- إنشاء طالب جديد (Create) ---
         public async Task<StudentDto?> CreateStudentAsync(CreateStudentDto createDto)
         
@@ -38,53 +60,59 @@ namespace SchoolApp.Services.Services
 
             try
             {
-                // 1. التحقق من تكرار رقم الهوية قبل أي عملية
-                if (await _unitOfWork.StudentRepository.AnyByIdNumberAsync(createDto.IdNumber))
-                {
-                    throw new DatabaseOperationException("رقم الهوية مستخدم بالفعل لطالب آخر.");
-                }
+                // ✅ 1. التحقق من البيانات الفارغة يدويًا
+                if (string.IsNullOrWhiteSpace(createDto.Name))
+                    throw new DatabaseOperationException("الاسم مطلوب.");
 
-                // 2. تحميل الصورة إذا وُجدت
+                if (string.IsNullOrWhiteSpace(createDto.IdNumber))
+                    throw new DatabaseOperationException("رقم الهوية مطلوب.");
+
+                if (string.IsNullOrWhiteSpace(createDto.Passport))
+                    throw new DatabaseOperationException("رقم الجواز مطلوب.");
+                if (await _unitOfWork.studentRepository.AnyByIdNumberAsync(createDto.IdNumber))
+                    throw new DatabaseOperationException("رقم الهوية مستخدم بالفعل لطالب آخر.");
+
+                if (await _unitOfWork.studentRepository.AnyByPassportAsync(createDto.Passport))
+                    throw new DatabaseOperationException("رقم جواز السفر مستخدم بالفعل.");
+
+                // ✅ 2. التحقق من التكرار
+                await ValidateStudentDataAsync(createDto);
+
+                // ✅ 3. تحميل الصورة إن وُجدت
                 if (createDto.StudentImage != null && createDto.StudentImage.Length > 0)
                 {
                     uploadedImagePath = _documentSettings.UplaodFile(createDto.StudentImage, "img");
                     createDto.ImgName = uploadedImagePath;
                 }
 
-                // 3. تحويل DTO إلى كيان Student
+                // ✅ 4. تحويل DTO إلى كيان
                 var student = _mapper.Map<Student>(createDto);
                 student.Id = Guid.NewGuid().ToString();
 
-                // 4. حفظ الطالب في قاعدة البيانات
-                await _unitOfWork.StudentRepository.AddAsync(student);
+                // ✅ 5. إضافة الطالب إلى قاعدة البيانات
+                await _unitOfWork.studentRepository.AddAsync(student);
                 var result = await _unitOfWork.CompleteAsync();
 
-                // 5. التحقق من نجاح الحفظ
+                // ✅ 6. التحقق من نجاح الحفظ
                 if (result <= 0)
                 {
                     if (!string.IsNullOrEmpty(uploadedImagePath))
-                    {
                         _documentSettings.DeleteFile(uploadedImagePath, "img");
-                    }
 
                     throw new DatabaseOperationException("فشل إنشاء الطالب. لم يتم إضافة أي بيانات إلى قاعدة البيانات.");
                 }
 
-                // 6. إعادة الطالب الناتج على هيئة DTO
+                // ✅ 7. إرجاع الطالب
                 return _mapper.Map<StudentDto>(student);
             }
             catch (ApplicationException ex)
             {
-                // خطأ خاص بتحميل الصورة
                 throw new ApplicationException("فشل تحميل ملف الصورة أثناء إنشاء الطالب.", ex);
             }
             catch (Exception ex)
             {
-                // حذف الصورة عند حدوث خطأ غير متوقع
                 if (!string.IsNullOrEmpty(uploadedImagePath))
-                {
                     _documentSettings.DeleteFile(uploadedImagePath, "img");
-                }
 
                 throw new DatabaseOperationException("حدث خطأ غير متوقع أثناء إنشاء الطالب.", ex);
             }
@@ -135,7 +163,7 @@ namespace SchoolApp.Services.Services
             {
                 // هذا يفترض أن GenericRepository<Student, string> لديه GetByNameAsync
                 // أو يمكنك استخدام _unitOfWork.StudentRepository.GetByNameAsync(name); إذا كان StudentRepository محددًا.
-                var students = await _unitOfWork.StudentRepository.GetbyNameAsync(name);
+                var students = await _unitOfWork.studentRepository.GetbyNameAsync(name);
 
                 if (students == null || !students.Any())
                 {

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolApp.DAL.Interfaces
+namespace SchoolApp.DAL.Interface
 {
     public interface ISpecifications<TEntity,TKey> where TEntity : BaseEntity<TKey>
     {

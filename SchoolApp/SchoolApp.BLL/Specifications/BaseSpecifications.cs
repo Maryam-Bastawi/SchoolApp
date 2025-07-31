@@ -1,5 +1,5 @@
 ﻿using SchoolApp.DAL.Entities;
-using SchoolApp.DAL.Interfaces;
+using SchoolApp.DAL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

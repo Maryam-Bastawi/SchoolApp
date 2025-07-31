@@ -49,15 +49,14 @@ namespace SchoolApp.BLL.Data.Configurations
                    .HasColumnName("Mobile1")
                    .HasMaxLength(15)
                    .IsRequired(false) ;
-            builder.HasIndex(s => s.IdNumber)
+            builder.HasIndex(s => s.Mobile1)
               .IsUnique();
             // MObILe2
             builder.Property(s => s.Mobile2)
                    .HasColumnName("Mobile2")
                    .HasMaxLength(15)
                    .IsRequired(false);
-            builder.HasIndex(s => s.IdNumber)
-               .IsUnique();
+
             // PHON
             builder.Property(s => s.Phone)
                    .HasColumnName("Phone")
@@ -86,7 +85,7 @@ namespace SchoolApp.BLL.Data.Configurations
             builder.Property(s => s.SuspendAccount)
                    .HasColumnName("SUSPIND_AC")
                    .HasColumnType("tinyint") // NUMBER(1,0) غالباً بيكون tinyint أو bit
-                   .IsRequired();
+                   .IsRequired(false);
 
             // IDNUM
             builder.Property(s => s.IdNumber)
@@ -124,7 +123,8 @@ namespace SchoolApp.BLL.Data.Configurations
                    .HasColumnName("NATID")
                    .HasMaxLength(65)
                    .IsRequired(false);
-
+            builder.HasIndex(s => s.NationalId)
+                   .IsUnique();
             builder.Property(s => s.ImgName)
                        .HasColumnName("ImgName")
                        .HasColumnType("nvarchar(max)") // استخدم nvarchar(max) لتخزين Base64 string
@@ -158,7 +158,7 @@ namespace SchoolApp.BLL.Data.Configurations
             builder.Property(s => s.NextGrade)
                    .HasColumnName("NEXTGRADE")
                    .HasColumnType("tinyint")
-                   .IsRequired();
+                   .IsRequired(false);
 
             // CLASSROOM
             builder.Property(s => s.Classroom)
@@ -181,7 +181,7 @@ namespace SchoolApp.BLL.Data.Configurations
             // STOPSMS
             builder.Property(s => s.StopSms)
                    .HasColumnName("STOPSMS")
-                   .IsRequired();
+                   .IsRequired(false);
 
             // STUDSEX
             builder.Property(s => s.StudentSex)
@@ -193,7 +193,7 @@ namespace SchoolApp.BLL.Data.Configurations
             builder.Property(s => s.Depart)
                    .HasColumnName("DEPART")
                    .HasColumnType("tinyint")
-                   .IsRequired();
+                   .IsRequired(false);
 
             // STUDIDNUM
             builder.Property(s => s.StudentIdNumber)
@@ -211,7 +211,7 @@ namespace SchoolApp.BLL.Data.Configurations
             builder.Property(s => s.IsGraduate)
                    .HasColumnName("ISGRADUATE")
                    .HasColumnType("tinyint")
-                   .IsRequired();
+                   .IsRequired(false);
 
             // PASSPORT
             builder.Property(s => s.Passport)
@@ -236,7 +236,7 @@ namespace SchoolApp.BLL.Data.Configurations
             builder.Property(s => s.IsNewYear)
                    .HasColumnName("ISNEWYEAR")
                    .HasColumnType("tinyint")
-                   .IsRequired();
+                   .IsRequired(false);
 
 
         }
